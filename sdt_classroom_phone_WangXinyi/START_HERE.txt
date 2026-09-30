@@ -1,0 +1,15 @@
+直接运行说明
+
+1. 把整个 sdt_classroom_phone_ready 文件夹放到：
+   /Users/wangxinyi/Documents/trae_projects/xinli/
+
+2. 直接双击 index.html 即可运行。
+
+推荐方式：
+cd /Users/wangxinyi/Documents/trae_projects/xinli/sdt_classroom_phone_ready
+python3 -m http.server 8000
+
+浏览器打开：
+http://localhost:8000
+
+不需要再下载 Roboflow 数据集。

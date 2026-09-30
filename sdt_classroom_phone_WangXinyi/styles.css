@@ -1,0 +1,63 @@
+*{box-sizing:border-box}
+:root{--navy:#15386b;--muted:#728198;--line:#d9e3ee;--bg:#f3f6fa;--gold:#d0a537;--green:#2c7d42;--red:#c73535;--blue:#1d6bc2}
+body{margin:0;background:var(--bg);font-family:Inter,"PingFang SC","Microsoft YaHei",Arial,sans-serif;color:#1c3458}
+.app{max-width:1080px;margin:0 auto;padding:36px 22px 60px}
+.hero{display:flex;justify-content:space-between;gap:24px;align-items:center;margin-bottom:22px}
+.eyebrow{font-size:12px;letter-spacing:.11em;color:#7b8aa1;font-weight:800;margin:0 0 7px}
+h1{font-size:40px;margin:0 0 8px;color:var(--navy)}h2{margin:0;color:var(--navy)}h3{color:var(--navy)}
+.subtitle{margin:0;color:#5e6f87;line-height:1.6}
+.datasetBadge{background:#fff7df;border:1px solid #ead795;color:#705919;padding:12px 16px;border-radius:15px;text-align:center;font-weight:800;white-space:nowrap}
+.datasetBadge span{display:block;font-size:11px;font-weight:600;color:#8e7943;margin-top:4px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 10px 28px rgba(35,57,91,.06);margin-bottom:18px}
+.hidden{display:none!important}
+.sectionTitleRow,.statusRow,.resultHead,.conceptHead{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.smallBadge{background:#eef3fa;border:1px solid #d8e3f0;border-radius:999px;padding:7px 11px;font-size:12px;color:#506782}
+.definition{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 16px}
+.definition div{background:#f8fafc;border:1px solid #e2e8f0;border-radius:13px;padding:14px}
+.definition b{display:block;margin-bottom:4px}.definition span{font-size:13px;color:#697a92}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.settings{margin:18px 0}
+label{font-weight:800;font-size:14px}select{display:block;width:100%;margin-top:8px;padding:11px;border:1px solid #ccd8e5;border-radius:10px;background:white;color:#233a5d}
+label small{display:block;color:#8190a3;font-weight:500;line-height:1.45;margin-top:5px}
+.outcomeGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+.outcome{padding:13px;border-radius:12px;border:1px solid var(--line);background:#fbfcfe}
+.outcome b{display:block;font-size:13px;margin-bottom:4px}.outcome span{font-size:12px;color:#73839a;line-height:1.45}
+.hit{border-top:3px solid #2b8d47}.miss{border-top:3px solid #d6a023}.fa{border-top:3px solid #d13c3c}.cr{border-top:3px solid #3477c8}
+.conceptLab{background:#f8fafc;border:1px solid #e2e8f0;border-radius:17px;padding:17px;margin:18px 0}
+.conceptLab h3{margin:0 0 4px}.criterionControl{display:block;max-width:340px}
+.sliderLine{display:flex;gap:10px;align-items:center;margin-top:8px}.sliderLine input{width:100%}.sliderLine strong{min-width:36px;text-align:right;color:var(--blue)}
+canvas{max-width:100%;height:auto}
+.networkNote{border-left:4px solid #3a7cc6;background:#eff6fd;border-radius:10px;padding:12px 14px;font-size:13px;color:#536a84;line-height:1.55}
+.primary,.secondary,.danger,.safe{border:0;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:800;cursor:pointer;transition:.15s}
+.primary{display:block;margin:20px auto 0;background:var(--navy);color:#fff;min-width:240px}
+.secondary{background:#eef3fa;color:var(--navy)}
+.danger{background:#fff0f0;color:#ad2525;border:1px solid #efb9b9}.safe{background:#edf8f0;color:#287541;border:1px solid #b8dfc2}
+.danger:hover,.safe:hover,.primary:hover,.secondary:hover{transform:translateY(-1px)}
+.hint,.small,footer{font-size:12px;color:#7a899f}
+.rightStatus{display:flex;gap:16px;font-size:13px;color:#65758c}.rightStatus b{color:#c13a3a}
+.progress{height:8px;background:#edf2f7;border-radius:999px;overflow:hidden;margin:14px 0 20px}.progress div{height:100%;width:0;background:#2875c8;transition:width .2s}
+.stimulusFrame{position:relative;width:100%;height:500px;border-radius:18px;overflow:hidden;background:#182333;display:flex;align-items:center;justify-content:center;border:1px solid #d5deea}
+.stimulusFrame img{width:100%;height:100%;object-fit:contain;background:#182333;opacity:0;transition:opacity .2s,filter .2s}
+.loading{position:absolute;color:#e0e8f2;font-weight:700;z-index:1}
+.mask{position:absolute;inset:0;background:rgba(18,34,56,.94);display:flex;align-items:center;justify-content:center;color:white;text-align:center;z-index:3}
+.mask b{display:block;font-size:24px}.mask span{display:block;margin-top:7px;color:#ccd5df}
+.question{text-align:center;font-size:18px;font-weight:800;margin:20px 0 12px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.feedback{text-align:center;min-height:24px;font-weight:700;color:#697990}
+.metricGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:20px 0}
+.metric{background:#f7f9fc;border:1px solid #e1e7f0;border-radius:14px;padding:15px}.metric span{font-size:12px;color:#73839a}.metric strong{display:block;font-size:27px;margin-top:5px;color:#173768}
+.resultGrid,.chartGrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.matrix{width:100%;border-collapse:collapse}.matrix th,.matrix td{border:1px solid #dce4ed;padding:11px;text-align:center}.matrix th{background:#f6f8fb}
+.compact th,.compact td{font-size:12px;padding:8px}
+.interpret{background:#f7f9fc;border-radius:15px;padding:17px;min-height:160px}
+.formulaBlock{background:#f8fafc;border-radius:12px;padding:10px 16px}.formulaBlock p{margin:7px 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.historyBlock{margin-top:25px}
+.sourceNote{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.sourceNote p{margin:6px 0 0;color:#687991;line-height:1.55;font-size:13px}
+footer{text-align:center;margin-top:18px}
+@media(max-width:800px){
+  .hero{flex-direction:column;align-items:flex-start}.grid3,.outcomeGrid,.metricGrid,.resultGrid,.chartGrid{grid-template-columns:1fr 1fr}
+  .stimulusFrame{height:390px}.conceptHead{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:560px){
+  h1{font-size:31px}.grid3,.outcomeGrid,.metricGrid,.resultGrid,.chartGrid,.definition,.actions{grid-template-columns:1fr}
+  .stimulusFrame{height:310px}.statusRow{align-items:flex-start}.rightStatus{flex-direction:column;gap:4px}
+}

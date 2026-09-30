@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>课堂巡视员：手机使用识别 · SDT实验</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="app">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">SIGNAL DETECTION THEORY · CLASSROOM MONITORING</p>
+      <h1>课堂巡视员：手机使用识别</h1>
+      <p class="subtitle">快速观察课堂画面，判断是否出现手机使用行为；完成 20 次判断后查看完整信号检测论结果。</p>
+    </div>
+    <div class="datasetBadge">
+      高清课堂监控样例
+      <span>Roboflow Universe · CC BY 4.0</span>
+    </div>
+  </header>
+
+  <section id="startScreen" class="panel">
+    <div class="sectionTitleRow">
+      <div>
+        <p class="eyebrow">01 · 场景与参数定义</p>
+        <h2>实验设置</h2>
+      </div>
+      <span class="smallBadge">精选样例 <b id="dataCount">27</b> 张</span>
+    </div>
+
+    <div class="definition">
+      <div><b>Signal（信号）</b><span>画面中存在手机使用行为</span></div>
+      <div><b>Noise（噪音）</b><span>画面中不存在手机使用行为</span></div>
+    </div>
+
+    <div class="grid3 settings">
+      <label>
+        先验概率 P(S)
+        <select id="prior">
+          <option value="0.30">0.30</option>
+          <option value="0.50" selected>0.50</option>
+          <option value="0.70">0.70</option>
+        </select>
+        <small>决定一轮 20 次中 Signal 的比例。</small>
+      </label>
+
+      <label>
+        刺激呈现时间
+        <select id="stimulusTime">
+          <option value="5000">5.0 秒</option>
+          <option value="3000" selected>3.0 秒</option>
+          <option value="1500">1.5 秒</option>
+        </select>
+        <small>时间结束后图片会被遮挡，但仍可作答。</small>
+      </label>
+
+      <label>
+        难度 / 目标 d′
+        <select id="difficulty">
+          <option value="easy">简单 · 目标 d′≈2.4</option>
+          <option value="medium" selected>中等 · 目标 d′≈1.6</option>
+          <option value="hard">困难 · 目标 d′≈0.8</option>
+        </select>
+        <small>主要通过样例本身的目标大小与呈现时间形成难度；不再主动模糊照片。最终 d′ 仍由实际作答计算。</small>
+      </label>
+    </div>
+
+    <div class="outcomeGrid">
+      <div class="outcome hit"><b>Hit / 击中</b><span>确有手机使用 → 判断“有”</span></div>
+      <div class="outcome miss"><b>Miss / 漏报</b><span>确有手机使用 → 判断“无”</span></div>
+      <div class="outcome fa"><b>False Alarm / 误报</b><span>实际无手机使用 → 判断“有”</span></div>
+      <div class="outcome cr"><b>Correct Rejection / 正确拒绝</b><span>实际无手机使用 → 判断“无”</span></div>
+    </div>
+
+    <div class="conceptLab">
+      <div class="conceptHead">
+        <div>
+          <p class="eyebrow">BONUS · 交互式概念可视化</p>
+          <h3>Signal / Noise 分布与判定标准</h3>
+        </div>
+        <label class="criterionControl">
+          演示判定标准 c
+          <div class="sliderLine">
+            <input id="criterionDemo" type="range" min="-1.5" max="1.5" value="0" step="0.1">
+            <strong id="criterionDemoValue">0.0</strong>
+          </div>
+        </label>
+      </div>
+      <canvas id="distributionCanvas" width="860" height="270"></canvas>
+      <p class="hint">这里用于理解 d′ 与 c；实际实验中的 d′、c 将根据你的作答重新计算。</p>
+    </div>
+
+    <div id="networkNote" class="networkNote">
+      <b>数据已接入，可直接开始。</b>
+      网页优先加载 Roboflow 的 original.jpg 原始分辨率图片，而不是缩略图。若个别在线图片临时无法访问，系统会自动切换到本地备用刺激，保证实验继续。
+    </div>
+
+    <button id="startBtn" class="primary">开始 20 次检测</button>
+  </section>
+
+  <section id="gameScreen" class="panel hidden">
+    <div class="statusRow">
+      <strong id="trialText">第 1 / 20 次</strong>
+      <div class="rightStatus">
+        <span id="priorText"></span>
+        <span id="difficultyText"></span>
+        <span>剩余 <b id="timerText">3.0s</b></span>
+      </div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="stimulusFrame">
+      <div id="loading" class="loading">正在加载课堂画面…</div>
+      <img id="stimulusImage" alt="课堂观察图片">
+      <div id="mask" class="mask hidden">
+        <div><b>刺激呈现结束</b><span>请根据刚才看到的画面作答</span></div>
+      </div>
+    </div>
+
+    <p class="question">刚才的画面中，是否存在手机使用行为？</p>
+    <div class="actions">
+      <button id="yesBtn" class="danger">📱 发现手机使用 / Signal</button>
+      <button id="noBtn" class="safe">✓ 未发现手机使用 / Noise</button>
+    </div>
+    <p id="feedback" class="feedback"></p>
+  </section>
+
+  <section id="resultScreen" class="panel hidden">
+    <div class="resultHead">
+      <div>
+        <p class="eyebrow">03 · 结果计算与展示</p>
+        <h2>本轮信号检测结果</h2>
+      </div>
+      <button id="restartBtn" class="secondary">再做一轮</button>
+    </div>
+
+    <div class="metricGrid">
+      <div class="metric"><span>P(H) · 击中率</span><strong id="hitRate">—</strong></div>
+      <div class="metric"><span>P(FA) · 误报率</span><strong id="faRate">—</strong></div>
+      <div class="metric"><span>d′ · 敏感性</span><strong id="dprime">—</strong></div>
+      <div class="metric"><span>c · 判定标准</span><strong id="criterion">—</strong></div>
+      <div class="metric"><span>Accuracy · 准确率</span><strong id="accuracy">—</strong></div>
+      <div class="metric"><span>Mean RT · 平均反应时</span><strong id="meanRt">—</strong></div>
+    </div>
+
+    <div class="resultGrid">
+      <div>
+        <h3>H / M / FA / CR</h3>
+        <table class="matrix">
+          <thead><tr><th></th><th>实际 Signal</th><th>实际 Noise</th></tr></thead>
+          <tbody>
+            <tr><th>判断 Signal</th><td id="H">H = 0</td><td id="FA">FA = 0</td></tr>
+            <tr><th>判断 Noise</th><td id="M">M = 0</td><td id="CR">CR = 0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="interpret">
+        <h3>结果解释</h3>
+        <p id="interpretText"></p>
+        <p id="correctionText" class="small"></p>
+      </div>
+    </div>
+
+    <div class="chartGrid">
+      <div><h3>ROC 操作点</h3><canvas id="rocCanvas" width="430" height="330"></canvas></div>
+      <div><h3>实测 Signal / Noise 分布</h3><canvas id="resultDistributionCanvas" width="430" height="330"></canvas></div>
+    </div>
+
+    <details>
+      <summary>查看 SDT 公式</summary>
+      <div class="formulaBlock">
+        <p>P(H) = H / (H + M)</p>
+        <p>P(FA) = FA / (FA + CR)</p>
+        <p>d′ = Z[P(H)] − Z[P(FA)]</p>
+        <p>c = −0.5 × {Z[P(H)] + Z[P(FA)]}</p>
+        <p>Accuracy = (H + CR) / 20</p>
+      </div>
+    </details>
+
+    <div class="historyBlock">
+      <h3>多轮实验对比</h3>
+      <table class="matrix compact">
+        <thead><tr><th>轮次</th><th>P(S)</th><th>难度</th><th>d′</th><th>c</th><th>准确率</th></tr></thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sourceNote">
+    <strong>数据来源与使用说明</strong>
+    <p>
+      核心教育场景参考 Roboflow Universe 的 <em>student-behaviors</em>；为了让作业无需下载数千张图片即可直接运行，
+      本包仅接入来自公开 CC BY 4.0 课堂/学生行为项目的少量公开预览样例，并附本地离线 fallback。
+      具体来源列在 README.md 与 data/manifest.js 中。
+    </p>
+  </section>
+
+  <footer>HTML + CSS + JavaScript · 纯前端 · 双击 index.html 即可运行</footer>
+</main>
+
+<script src="data/manifest.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
