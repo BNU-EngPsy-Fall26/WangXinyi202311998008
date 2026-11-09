@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>教育认知实验室｜注意实验作业二</title><link rel="stylesheet" href="css/style.css"></head>
+<body><header class="site-header"><div class="container header-inner"><div class="brand">Educational Cognition Lab · HW2</div><nav class="nav"><a href="index.html">首页</a><a href="flanker.html">Flanker</a><a href="graphical.html">比例判断</a><a href="analysis.html">结果分析</a></nav></div></header>
+<main><section class="hero"><div class="container"><span class="badge">经典认知实验 × 教育材料设计</span><h1>教育认知实验室</h1><p class="hero-lead">教学材料怎样引导注意，帮助学习者更准确地加工信息？</p><p>本项目通过两项经典认知实验研究视觉提示与数量表征的影响：保留原有反应时、正确率和判断误差指标，同时讨论其对课堂 PPT 和统计图表设计的启示。</p></div></section>
+<section class="container"><div class="notice warning"><strong>提交前必须做的个人工作：</strong>课程要求问题界定、预测、数据解释与设计决策由学生本人完成。项目中的预测文本是 AI 辅助草稿，请你在收数据前自行核查、改写并先 commit；AI 使用请如实写入 README。</div>
+<div class="card" style="margin-top:20px"><h2>开始前设置</h2><div class="form-row"><div class="field"><label for="participant">匿名参与者编号</label><input id="participant" type="text" placeholder="例如 P001" autocomplete="off"><div class="small">不要填写姓名、学号等直接身份信息。</div></div><div class="field"><label for="projectCode">课程 6 位项目码（由项目创建者配置）</label><input id="projectCode" type="text" maxlength="12" placeholder="在 /hw2 创建项目后填写"><div class="small">公开部署前应在 js/config.js 写入项目码；有配置后被试无需填写。下载密钥不要写进代码。</div></div></div>
+<label class="checkbox"><input id="consent" type="checkbox"><span>我已阅读说明，自愿参加本课程实验；数据仅使用匿名编号，可随时退出。</span></label><div class="actions"><button class="btn" id="saveSetup">保存设置</button><button class="btn outline" id="downloadLocal">下载本机全部数据</button></div><div id="setupStatus" class="status"></div></div>
+<div class="grid" style="margin-top:20px"><div class="card"><span class="badge">W6 · 教学中的注意引导</span><h2>实验 1：Flanker 侧翼干扰</h2><p><strong>复现：</strong>不一致侧翼字母会使中央目标判断更慢、更容易出错。</p><p><strong>改进：</strong>颜色突出中央目标，测试显著的目标特征是否能削弱侧翼干扰。</p><p class="education-hint"><strong>教育学联系：</strong>课件突出关键词，是否有助于读者忽略周围无关信息？这是一个注意引导的实验类比，不是直接测量学习成绩。</p><p><strong>正式试次：</strong>48 次（2×2 被试内设计，每格 12 次）。</p><a class="btn" href="flanker.html">进入实验</a></div><div class="card"><span class="badge">W7 · 统计图表阅读</span><h2>实验 2：图形比例判断</h2><p><strong>复现：</strong>使用角度/面积编码时，比例估计存在稳定误差。</p><p><strong>改进：</strong>加入 25% / 50% / 75% 参考刻度，测试视觉锚点是否降低绝对判断误差。</p><p class="education-hint"><strong>教育学联系：</strong>在数学、地理和教育统计课中，图表的视觉参照能否帮助读者更准确地提取比例信息？</p><p><strong>正式试次：</strong>24 次（无刻度 12 + 有刻度 12）。</p><a class="btn" href="graphical.html">进入实验</a></div></div>
+<section class="card theory-card" style="margin-top:20px"><h2>教育学视角：两个可检验的设计问题</h2><div class="grid">
+<div><p class="mini-label">注意引导 · Signaling</p><h3>突出重要信息，会改变干扰效应吗？</h3><p>多媒体学习中的信号原则强调以视觉线索帮助学习者识别关键信息。本实验只检验其在简化的注意任务中的表现，不推断实际课堂学习成效。</p></div>
+<div><p class="mini-label">图表阅读 · Graphical perception</p><h3>加入参考刻度，会降低比例估计误差吗？</h3><p>教学图表既需要传达知识，也需要让读者正确读取数量关系。通过添加视觉参照，观察图形判断的准确性是否改变。</p></div></div>
+<div class="theory-footer">参考视角：Mayer &amp; Moreno (2003)；Richter, Scheiter, &amp; Eitel (2016)；Cleveland &amp; McGill (1984)。<a href="EDUCATION_FRAMEWORK.md">教育学设计说明（Markdown）</a></div></section>
+<div class="card" style="margin-top:20px"><h2>建议顺序</h2><div class="grid three"><div><strong>1. 先做 Flanker</strong><p class="small">练习 → 正式实验 → 自动本机备份/尝试上传。</p></div><div><strong>2. 再做比例判断</strong><p class="small">保持相同匿名编号，完成第二项实验。</p></div><div><strong>3. 导入结果</strong><p class="small">进入“结果分析”，读取本机数据或导入课程后台下载的数据。</p></div></div></div></section></main>
+<footer class="footer"><div class="container">仅用于课程实验作业。请勿上传姓名、学号或下载密钥。</div></footer>
+<script src="js/config.js"></script><script src="js/common.js"></script><script>
+const p=Attn.qs('#participant'), c=Attn.qs('#projectCode'), consent=Attn.qs('#consent'), status=Attn.qs('#setupStatus');p.value=Attn.getParticipant();c.value=Attn.getProjectCode();
+const codeEmbedded=/^[A-Za-z0-9]{6}$/.test(String(window.ATTN_CONFIG?.PROJECT_CODE||'').trim());
+if(codeEmbedded){c.readOnly=true;c.closest('.field').style.display='none';}
+// 每次从首页招募新被试都必须重新明确勾选同意，避免共用电脑沿用上人的同意。
+consent.checked=false;Attn.setConsent(false);
+Attn.qs('#saveSetup').onclick=()=>{if(!p.value.trim()){status.className='status err';status.textContent='请填写匿名参与者编号。';return}Attn.setParticipant(p.value);Attn.setProjectCode(c.value);Attn.setConsent(consent.checked);status.className='status ok';status.textContent='设置已保存。'};
+Attn.qs('#downloadLocal').onclick=()=>{const rows=Attn.loadTrials();if(!rows.length){status.className='status err';status.textContent='当前浏览器还没有实验数据。';return}Attn.downloadRows(rows,'attention_lab_local_backup');status.className='status ok';status.textContent=`已导出 ${rows.length} 条 trial。`};
+</script></body></html>
